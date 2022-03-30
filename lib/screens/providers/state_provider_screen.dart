@@ -12,6 +12,19 @@ class StateProviderScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final counter = ref.watch(stateProvider);
 
+    // Listening to Provider State Changes
+    ref.listen(
+      stateProvider,
+      (previous, next) {
+        // note: this callback executes when the provider value changes,
+        // not when the build method is called
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.toString())),
+        );
+      },
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('State Provider'),
